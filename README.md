@@ -28,31 +28,16 @@ These steps are not necessary, but recommended for build environment isolation. 
 
 ### Install dependencies
 
-Installing the package resolves and builds the dependencies required to run `MP3 Tagger`. There are two ways to install the dependencies. You may use the traditional `setup.py` method _or_ `poetry`.
-
-Traditional:
-
-```shell
-pip install .
-```
-
-_Or_ poetry:
-
-```shell
-poetry install
-```
-
-### Local development
-
+Installing the package resolves and builds the dependencies required to run `MP3 Tagger`. 
 The package can be installed in developement (editable) mode to allow you to make changes locally.
 
 Traditional:
 
-```shell
+```
 pip install -e .
 ```
 
-Poetry automatically installs dependencies in development mode.
+Poetry automatically installs dependencies in development mode?
 
 ## Running
 
