@@ -55,4 +55,4 @@ Poetry:
 poetry run python -m mp3tagger
 ```
 ## Customization
-You can change the options in mp3tagger\mp3tagger\data\sections.py to customize the GUI to your needs. You can add or remove sections, change the labels, and change the tags that are used to filter the files. I suppose we'll have to keep this file out of the repo and add it to the .gitignore file.
+You can change the options in `mp3tagger\mp3tagger\data\sections.py` to customize the GUI to your needs. You can add or remove sections, change the labels, and change the tags that are used to filter the files. I suppose we'll have to keep this file out of the repo and add it to the .gitignore file.
