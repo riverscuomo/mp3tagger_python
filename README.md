@@ -2,6 +2,9 @@
 
 A python GUI that builds filters for the Mp3Tag application. I use this script to filter my demos by various custom tags. You can easily customize the script to filter by any tag you want.
 
+![image](https://user-images.githubusercontent.com/24362267/226625853-29d5d6b1-edfe-4c3a-91e4-d1acf42fa470.png)
+
+
 ## Installation
 
 Before you can run the `MP3 Tagger` script, there are some pre-requisites that are assumed.
