@@ -6,10 +6,9 @@ Because it's a pain to write Mp3Tag filters like this `((NOT BPM LESS 80 AND NOT
 
 Instead, set the switches in the GUI and click `Filter`...script builds the filter string and types it into the filter  box in Mp3Tag.
 
-![image](https://user-images.githubusercontent.com/24362267/226626980-96204111-f9d7-4793-8c2f-4d9969752954.png)
-
-
 ![image](https://user-images.githubusercontent.com/24362267/226625853-29d5d6b1-edfe-4c3a-91e4-d1acf42fa470.png)
+
+![image](https://user-images.githubusercontent.com/24362267/226626980-96204111-f9d7-4793-8c2f-4d9969752954.png)
 
 
 ## Installation
