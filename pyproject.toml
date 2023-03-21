@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "mp3tagger"
+version = "0.1.0"
+description = "A Python GUI for building filter strings for the Mp3Tag Windows app"
+authors = ["Rivers Cuomo <riverscuomo@users.noreply.github.com>"]
+license = "GPL"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+rich = ">=13.3.2"
+pywinauto = ">=0.6.8"
+python-dotenv = ">=0.21.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
