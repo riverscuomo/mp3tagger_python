@@ -13,7 +13,7 @@ https://www.mp3tag.de/en/
 ### Environment Variables
 
 The following environment variables are mandatory:
-- MP3TAG_PATH=path_to_mp3tag (mine is C:\Program Files (x86)\Mp3tag\Mp3tag.exe)
+`MP3TAG_PATH=`path_to_mp3tag (mine is C:\Program Files (x86)\Mp3tag\Mp3tag.exe)
 
 The recommended way for setting these environmental variables is to use a `.env` file.
 
