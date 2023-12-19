@@ -139,7 +139,7 @@ sections_data = [
             ("covers", OFF),
             ("previous", OFF),
             ("hold", OFF),
-            ("szn", OFF),
+            ("The Pink Album", OFF),
             ("beats", OFF),
         ],
     },

@@ -55,26 +55,26 @@ def set_filter_string(value):
     # click()
 
     # Get user value from input
-    filter = ""
+    my_filter = ""
 
     # print(IncludeBpm.get())
 
     if IncludeBpm.get() == 1:
-        filter = get_bpm_filter(slider.getValues())
+        my_filter = get_bpm_filter(slider.getValues())
 
     for section in sections:
 
-        filter = get_filter_From_section(filter, section, control_toggle_pressed=False)
+        my_filter = get_filter_From_section(my_filter, section, control_toggle_pressed=False)
 
-    filter = clean_filter(filter)
+    my_filter = clean_filter(my_filter)
 
-    filter = filter.replace(" AND ", "\n")
+    my_filter = my_filter.replace(" AND ", "\n")
 
     # Empty the Text boxes if they had text from the previous use and fill them again
     # Deletes the content of the Text box from start to END
     textbox.delete("1.0", END)
     # Fill in the text box with the value of gram variable
-    textbox.insert(END, filter)
+    textbox.insert(END, my_filter)
 
 
 def set_filter_string_from_toggle(value, toggled_section_name=None):
@@ -85,40 +85,40 @@ def set_filter_string_from_toggle(value, toggled_section_name=None):
     # click()
 
     # Get user value from input
-    filter = ""
+    my_filter = ""
 
     # print(IncludeBpm.get())
 
     if IncludeBpm.get() == 1:
-        filter = get_bpm_filter(slider.getValues())
+        my_filter = get_bpm_filter(slider.getValues())
 
     for section in sections:
         # print(section['label']['text'] )
 
         if section["label"]["text"] == toggled_section_name:
-            filter = get_filter_From_section(
-                filter, section, control_toggle_pressed=True
+            my_filter = get_filter_From_section(
+                my_filter, section, control_toggle_pressed=True
             )
             # print('control_toggle_pressed=True')
 
         else:
-            filter = get_filter_From_section(
-                filter, section, control_toggle_pressed=False
+            my_filter = get_filter_From_section(
+                my_filter, section, control_toggle_pressed=False
             )
             # print('control_toggle_pressed=False')
 
-    filter = clean_filter(filter)
+    my_filter = clean_filter(my_filter)
 
-    filter = filter.replace(" AND ", "\n")
+    my_filter = my_filter.replace(" AND ", "\n")
 
     # Empty the Text boxes if they had text from the previous use and fill them again
     # Deletes the content of the Text box from start to END
     textbox.delete("1.0", END)
     # Fill in the text box with the value of gram variable
-    textbox.insert(END, filter)
+    textbox.insert(END, my_filter)
 
 
-def get_filter_From_section(filter, section, control_toggle_pressed):
+def get_filter_From_section(my_filter, section, control_toggle_pressed):
 
     # pprint(section)
 
@@ -144,13 +144,13 @@ def get_filter_From_section(filter, section, control_toggle_pressed):
         else:
             positive_filter += absent_amendment
 
-        filter += positive_filter
+        my_filter += positive_filter
     if negative_filters:
         negative_filter += "|".join(negative_filters)
         negative_filter += ") AND "
-        filter = filter + negative_filter
+        my_filter = my_filter + negative_filter
 
-    return filter
+    return my_filter
 
 
 # THIS IS THE ONE
@@ -194,15 +194,19 @@ def get_filters(section, control_toggle_pressed):
     return label, positive_filters, negative_filters
 
 
-def copy_to_mp3tag():
+def copy_to_mp3tag():  # sourcery skip: use-fstring-for-concatenation
 
-    filter = textbox.get("1.0", "end-1c")
-    filter = filter.replace("\n", " AND ")
+    my_filter = textbox.get("1.0", "end-1c")
+    my_filter = my_filter.replace("\n", " AND ")
 
     if HoldAbsent.get() == 1:
-        filter = filter + " AND HOLD ABSENT"
-    # print(filter)
-    threading.Thread(target=automate, args=(filter,)).start()
+        my_filter = my_filter + " AND HOLD ABSENT"
+    if DeselectAbsent.get() == 1:
+        my_filter = my_filter + " AND DESELECT ABSENT"
+    threading.Thread(target=automate, args=(my_filter,)).start()
+
+    
+
 
 
 row = 0
@@ -271,6 +275,20 @@ hold_checkbox = tk.Checkbutton(
     window,
     text="exclude files on hold",
     variable=HoldAbsent,
+    bg=bg_color,
+    fg=fg_color,
+    selectcolor="#333333",
+)
+hold_checkbox.grid(row=row, column=column)
+hold_checkbox.select()
+
+# DESELECT ABSENT
+row += 1
+DeselectAbsent = IntVar()
+hold_checkbox = tk.Checkbutton(
+    window,
+    text="exclude deselect",
+    variable=DeselectAbsent,
     bg=bg_color,
     fg=fg_color,
     selectcolor="#333333",
