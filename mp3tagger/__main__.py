@@ -1,32 +1,18 @@
-import sys
 from dotenv import load_dotenv
 load_dotenv()
-sys.path.insert(0, r"C:\RC Dropbox\Rivers Cuomo\Apps")
-
-sys.path.insert(0, r"C:\RC Dropbox\Rivers Cuomo\Apps\databases")
 
 import threading
 from mp3tagger.scripts.builders import *
-from scripts.bpm import *
-from scripts.automate import *
-from data.constants import *
-from data.sections import *
-
+from mp3tagger.scripts.bpm import *
+from mp3tagger.scripts.automate import *
+from mp3tagger.data.constants import *
+from mp3tagger.data.sections import *
+from mp3tagger.widgets.tkSliderWidget import *
 import os
-from time import sleep
 import tkinter as tk
 from tkinter import IntVar, ttk as ttk
-from widgets.tkSliderWidget import *
-
-# import pickle
-from pprint import pprint
+from tkinter import Scrollbar, Canvas, WORD, IntVar, END
 import subprocess
-
-
-# Create an empty Tkinter window
-window = tk.Tk()
-window.title("MP3 Tagger")
-window.configure(bg=bg_color, highlightcolor=fg_color)
 
 """
 pywinauto
@@ -207,13 +193,45 @@ def copy_to_mp3tag():  # sourcery skip: use-fstring-for-concatenation
         my_filter = my_filter + " AND DESELECT ABSENT"
     threading.Thread(target=automate, args=(my_filter,)).start()
 
-    
+# Update the window's scrolling region on a configure event of the frame
+def onFrameConfigure(canvas):
+    canvas.configure(scrollregion=canvas.bbox("all"))
+
+# Create an empty Tkinter window
+def set_up_window():
+    window = tk.Tk()
+    window.title("MP3 Tagger")
+    window.configure(bg=bg_color, highlightcolor=fg_color)
+
+    # This line maximizes the window. To use this on Windows:
+    window.state('zoomed')
+    return window
 
 
+def create_frame(onFrameConfigure, window):
+    # Create the canvas and the horizontal scrollbar
+    canvas = Canvas(window, bg=bg_color, highlightthickness=0)  # Set background color here and remove highlight
+    h_scrollbar = Scrollbar(window, orient='horizontal', command=canvas.xview)
+    canvas.configure(xscrollcommand=h_scrollbar.set)
+
+    # Create the frame to hold the widgets within the canvas, setting the bg_color
+    frame = tk.Frame(canvas, bg=bg_color)  # Set background color here
+
+    # Add the canvas and scrollbar to the window
+    canvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+    h_scrollbar.pack(side=tk.BOTTOM, fill=tk.X)
+
+    # Add the frame to the canvas
+    canvas.create_window((0, 0), window=frame, anchor='nw')
+
+    frame.bind("<Configure>", lambda event, canvas=canvas: onFrameConfigure(canvas))
+    return frame
+
+window = set_up_window()
+frame = create_frame(onFrameConfigure, window)
 
 row = 0
 column = 0
-
 sections = []
 
 # At runtime, do an initial build of each section.
@@ -225,7 +243,7 @@ for x in sections_data:
     x["no_blanks"] = IntVar(name="NoBlanks" + x["label"])
 
     section = build_section(
-        window,
+        frame,
         x,
         row=row,
         column=column,
@@ -237,7 +255,7 @@ for x in sections_data:
 
 # BPM Label
 column += 1
-bpm_label = tk.Label(window, text="BPM Range", bg=bg_color, fg=fg_color)
+bpm_label = tk.Label(frame, text="BPM Range", bg=bg_color, fg=fg_color)
 bpm_label.grid(row=row, column=column)
 
 
@@ -245,7 +263,7 @@ bpm_label.grid(row=row, column=column)
 row += 1
 # NOTE: This is a custom widget in the widgets folder
 slider = Slider(
-    window,
+    frame,
     width=600,
     height=50,
     min_val=55,
@@ -260,7 +278,7 @@ slider.grid(row=row, column=column)
 row += 1
 IncludeBpm = IntVar()
 bpm_checkbox = tk.Checkbutton(
-    window,
+    frame,
     text="include BPM",
     variable=IncludeBpm,
     bg=bg_color,
@@ -274,7 +292,7 @@ bpm_checkbox.select()
 row += 1
 HoldAbsent = IntVar()
 hold_checkbox = tk.Checkbutton(
-    window,
+    frame,
     text="exclude files on hold",
     variable=HoldAbsent,
     bg=bg_color,
@@ -288,7 +306,7 @@ hold_checkbox.select()
 row += 1
 DeselectAbsent = IntVar()
 hold_checkbox = tk.Checkbutton(
-    window,
+    frame,
     text="exclude deselect",
     variable=DeselectAbsent,
     bg=bg_color,
@@ -300,12 +318,12 @@ hold_checkbox.select()
 
 # The Filter button
 row += 2
-b1 = tk.Button(window, text="FILTER", command=copy_to_mp3tag, bg=bg_color, fg=fg_color)
+b1 = tk.Button(frame, text="FILTER", command=copy_to_mp3tag, bg=bg_color, fg=fg_color)
 b1.grid(row=row, column=column)
 
 # THE FILTER TEXTBOX
 textbox = tk.Text(
-    window, wrap=WORD, padx=10, bg=bg_color, fg=fg_color, font=filter_font
+    frame, wrap=WORD, padx=10, bg=bg_color, fg=fg_color, font=filter_font
 )
 row += 1
 textbox.grid(
@@ -327,5 +345,3 @@ subprocess.Popen(
 # This makes sure to keep the main window open
 window.mainloop()
 
-# if __name__ == "__main__":
-#     main()
