@@ -72,7 +72,8 @@ def set_filter_string(value):
 
     # Empty the Text boxes if they had text from the previous use and fill them again
     # Deletes the content of the Text box from start to END
-    textbox.delete("1.0", END)
+    # textbox.delete("1.0", END)
+    textbox.delete("1.0", "end-1c")  # Clear the current content
     # Fill in the text box with the value of gram variable
     textbox.insert(END, my_filter)
 
@@ -113,7 +114,8 @@ def set_filter_string_from_toggle(value, toggled_section_name=None):
 
     # Empty the Text boxes if they had text from the previous use and fill them again
     # Deletes the content of the Text box from start to END
-    textbox.delete("1.0", END)
+    # textbox.delete("1.0", END)
+    textbox.delete("1.0", "end-1c")
     # Fill in the text box with the value of gram variable
     textbox.insert(END, my_filter)
 
@@ -313,6 +315,8 @@ textbox.grid(
     pady=17,
 )
 textbox.delete("1.0", END)
+
+
 
 mp3tag_path = os.environ.get("MP3TAG_PATH")
 # At runtime, open mp3tag

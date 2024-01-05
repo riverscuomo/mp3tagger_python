@@ -40,11 +40,16 @@ def automate(filter):
     # window.child_window(best_match="ComboBox").type_keys(filter)
 
     # FOR NOT BACKEND = UAI
-    window['Filte&r:ComboBox'].type_keys(filter)
+       # Clear the existing content in the ComboBox
+    combo_box = window['Filte&r:ComboBox']
+    combo_box.set_focus()
+    combo_box.type_keys('^a')  # Ctrl+A to select all
+    combo_box.type_keys('{BACKSPACE}')  # Clear the selected text
+    window['Filte&r:ComboBox'].send_chars(filter)
 
     
 
-    # window['Filte&r:ComboBox'].send_message(filter)
+    # window['Filte&r:ComboBox'].type_keys(filter)
 
     # window['Filte&r:ComboBox'].type_keys('')
     # filter = filter.replace('{','').replace('}', '')
