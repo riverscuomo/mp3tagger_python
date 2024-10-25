@@ -1,0 +1,199 @@
+{
+    "sections": [
+        {
+            "label": "%_folderpath%",
+            "no_blanks": 0,
+            "scales": [
+                [
+                    "*",
+                    0
+                ],
+                [
+                    "ideas",
+                    2
+                ],
+                [
+                    "solo",
+                    2
+                ],
+                [
+                    "covers",
+                    2
+                ],
+                [
+                    "previous",
+                    2
+                ],
+                [
+                    "hold",
+                    0
+                ],
+                [
+                    "Boxify",
+                    0
+                ],
+                [
+                    "beats",
+                    0
+                ]
+            ]
+        },
+        {
+            "label": "Masterpiece",
+            "no_blanks": 0,
+            "scales": [
+                [
+                    "*",
+                    2
+                ],
+                [
+                    "5",
+                    1
+                ],
+                [
+                    "4",
+                    1
+                ],
+                [
+                    "3",
+                    1
+                ],
+                [
+                    "2",
+                    2
+                ],
+                [
+                    "1",
+                    2
+                ]
+            ]
+        },
+        {
+            "label": "Genesis",
+            "no_blanks": 0,
+            "scales": [
+                [
+                    "*",
+                    2
+                ],
+                [
+                    "piano",
+                    1
+                ],
+                [
+                    "track",
+                    1
+                ],
+                [
+                    "aku",
+                    1
+                ],
+                [
+                    "dist",
+                    1
+                ],
+                [
+                    "melody",
+                    2
+                ],
+                [
+                    "clean",
+                    1
+                ],
+                [
+                    "lyric-piano",
+                    0
+                ],
+                [
+                    "lyric",
+                    0
+                ],
+                [
+                    "title",
+                    0
+                ],
+                [
+                    "mouth",
+                    0
+                ],
+                [
+                    "beat",
+                    0
+                ]
+            ]
+        },
+        {
+            "label": "jd",
+            "no_blanks": 0,
+            "scales": [
+                [
+                    "*",
+                    2
+                ],
+                [
+                    "5",
+                    1
+                ],
+                [
+                    "4",
+                    1
+                ],
+                [
+                    "3",
+                    1
+                ],
+                [
+                    "2",
+                    1
+                ],
+                [
+                    "1",
+                    1
+                ]
+            ]
+        },
+        {
+            "label": "composer",
+            "no_blanks": 0,
+            "scales": [
+                [
+                    "*",
+                    0
+                ],
+                [
+                    "Rivers Cuomo",
+                    2
+                ]
+            ]
+        },
+        {
+            "label": "cowriter",
+            "no_blanks": 0,
+            "scales": [
+                [
+                    "*",
+                    0
+                ],
+                [
+                    "None",
+                    0
+                ],
+                [
+                    "track",
+                    0
+                ],
+                [
+                    "cowriter",
+                    0
+                ]
+            ]
+        }
+    ],
+    "IncludeBpm": 1,
+    "HoldAbsent": 1,
+    "DeselectAbsent": 1,
+    "BPMSlider": [
+        80,
+        100
+    ]
+}

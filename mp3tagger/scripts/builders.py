@@ -1,14 +1,16 @@
 import tkinter as tk
-from tkinter import ttk as ttk
-import winsound
-import threading
+from tkinter import IntVar, ttk as ttk
 from mp3tagger.data.constants import *
 from mp3tagger.data.sections import *
 
+import tkinter as tk
+from tkinter import ttk as ttk
+from mp3tagger.data.constants import *
+from mp3tagger.data.sections import *
+import logging
+from typing import Any, Dict
 
-NEUTRAL = 1
-OFF = 0
-ON = 2
+logger = logging.getLogger(__name__)
 
 
 # Only called at initialization
@@ -75,27 +77,6 @@ def build_section(window, section, row, column, toggle_command, command):
     variable = section['no_blanks']
     no_blanks_checkbox = tk.Checkbutton(window, variable=variable, bg=bg_color, fg=fg_color, selectcolor="#333333") # text='include blanks', 
     no_blanks_checkbox.grid(row=row, column=column)
-    # no_blanks_checkbox.select()
-
-    
-    
-    # # A separator
-    
-    # row = row + 1
-
-    # style = ttk.Style()
-
-
-    # style.configure("Separator.separator", background="black")
-    
-    
-    # sep = ttk.Separator(window, style="Separator.separator")
-    # sep.grid(row=row, column=column, sticky="NSEW")
-    
-
-    
-    # print(s.layout('TSeparator')) # [('Separator.separator', {'sticky': 'nswe'})]
-    # print(s.element_options('Separator.separator')) 
     
     # Build each scale in this section
     for s in section['scales']:
@@ -121,3 +102,49 @@ def clean_filter(filter):
     return filter
 
 
+
+def get_filter_from_section(current_filter: str, section: Dict[str, Any], control_toggle_pressed: bool = False) -> str:
+    """
+    Updates the filter string based on the settings of a section.
+
+    Args:
+        current_filter (str): The current filter string.
+        section (Dict[str, Any]): The section data containing label, scales, and no_blanks.
+        control_toggle_pressed (bool): Flag indicating if the section's control toggle was pressed.
+
+    Returns:
+        str: The updated filter string.
+    """
+    label_widget = section.get("label")
+    if not label_widget:
+        logger.warning("Section missing 'label' widget.")
+        return current_filter
+
+    label_text = label_widget.cget("text")
+    no_blanks = section.get("no_blanks", IntVar()).get()
+    scales = section.get("scales", [])
+
+    # Example logic: Append filters based on scale values
+    for scale in scales:
+        param = scale.cget("label").strip()
+        value = scale.get()
+
+        # Skip if value is NEUTRAL
+        if value == NEUTRAL:
+            continue
+
+        # Define how each param and its value should modify the filter
+        # This is a placeholder; adjust based on actual filtering logic
+        if value == ON:
+            current_filter += f" AND {param.upper()} = 'ON'"
+        elif value == OFF:
+            current_filter += f" AND {param.upper()} = 'OFF'"
+        else:
+            # Handle other values as needed
+            current_filter += f" AND {param.upper()} = '{value}'"
+
+    # Handle 'no_blanks' checkbox if applicable
+    if no_blanks:
+        current_filter += " AND NO_BLANKS = 1"
+
+    return current_filter
