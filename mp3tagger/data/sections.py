@@ -1,7 +1,6 @@
 from .constants import *
 
 
-
 for_jake = [
     {
         "group_control": NEUTRAL,
@@ -367,3 +366,4 @@ previous = [
 ]
 
 sections_data = for_jake
+sections_data.reverse()

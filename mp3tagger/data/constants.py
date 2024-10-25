@@ -2,7 +2,7 @@
 TKINTER COLORS
 http://www.science.smith.edu/dftwiki/index.php/Color_Charts_for_TKinter
 """
-
+AUTO_LOAD_LAST_VIEW = True  # Can be set to False to disable auto-loading
 bg_color='#333333'
 fg_color='#dddddd'
 middle_color='grey29'
