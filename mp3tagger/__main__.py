@@ -133,11 +133,14 @@ class MP3TaggerApp:
 
         logger.debug("Initializing MP3TaggerApp.")
         self.setup_gui()
+        
+        # Initialize the filter string after GUI setup
+        logger.debug("Setting initial filter string")
+        self.set_filter_string()
 
         self.mp3tag_path: Optional[str] = os.environ.get("MP3TAG_PATH")
         logger.debug(f"MP3TAG_PATH retrieved: {self.mp3tag_path}")
         self.launch_mp3tag()
-
     def setup_gui(self) -> None:
         """
         Sets up the main GUI components, including the scrollable frame, sections, and controls.
@@ -473,38 +476,46 @@ class MP3TaggerApp:
         threading.Thread(target=automate, args=(my_filter,), daemon=True).start()
         logger.debug("Automation thread started.")
 
-    def set_filter_string(self) -> None:
+    def set_filter_string(self, *args) -> None:
         """
         Updates the filter string based on user input and current section states.
+        Now handles additional arguments passed by Tkinter callbacks.
         """
         logger.debug("Updating filter string.")
-        my_filter: str = ""
+        filters = []
 
         if self.IncludeBpm.get() == NEUTRAL:
             bpm_values: List[int] = self.slider.getValues()
-            my_filter = get_bpm_filter(bpm_values)
-            logger.debug(f"Including BPM filter: {my_filter}")
+            bpm_filter = get_bpm_filter(bpm_values)
+            if bpm_filter:
+                filters.append(bpm_filter)
+            logger.debug(f"Including BPM filter: {bpm_filter}")
 
         for section in self.sections:
-            my_filter = get_filter_from_section(my_filter, section, control_toggle_pressed=False)
-            logger.debug(f"Filter after section '{section['label'].cget('text')}': {my_filter}")
+            section_filter = get_filter_from_section("", section, control_toggle_pressed=False)
+            if section_filter:
+                filters.append(section_filter)
+            logger.debug(f"Filter after section '{section['label'].cget('text')}': {section_filter}")
 
-        my_filter = clean_filter(my_filter).replace(" AND ", "\n")
+        # Combine all non-empty filters with AND
+        my_filter = " AND ".join(filter for filter in filters if filter)
+        my_filter = clean_filter(my_filter)
+        
         logger.debug(f"Final filter string: {my_filter}")
 
         self.textbox.delete("1.0", "end-1c")
-        self.textbox.insert(END, my_filter)
+        self.textbox.insert(END, my_filter.replace(" AND ", "\n"))
         logger.info("Filter string updated and inserted into textbox.")
 
-    def set_filter_string_from_toggle(self, toggled_section_name: Optional[str] = None) -> None:
+    def set_filter_string_from_toggle(self, value, toggled_section_name: Optional[str] = None) -> None:
         """
         Updates the filter string when a toggle is pressed, highlighting the toggled section.
         
         Args:
+            value: The new value from the toggle (passed automatically by Tkinter)
             toggled_section_name (Optional[str]): The name of the toggled section.
         """
-        logger.debug(f"Toggle pressed for section: {toggled_section_name}")
-        print("Toggle pressed for section:", toggled_section_name)
+        logger.debug(f"Toggle pressed for section: {toggled_section_name} with value: {value}")
 
         my_filter: str = ""
 
@@ -526,7 +537,6 @@ class MP3TaggerApp:
         self.textbox.delete("1.0", "end-1c")
         self.textbox.insert(END, my_filter)
         logger.info("Filter string updated from toggle and inserted into textbox.")
-
     def launch_mp3tag(self) -> None:
         """
         Launches the MP3Tag application using the provided path.
