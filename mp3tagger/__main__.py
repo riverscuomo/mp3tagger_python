@@ -337,11 +337,22 @@ textbox.delete("1.0", END)
 
 
 mp3tag_path = os.environ.get("MP3TAG_PATH")
-# At runtime, open mp3tag
-subprocess.Popen(
-    [mp3tag_path]
-)  # https://stackoverflow.com/questions/37238645/how-to-open-external-programs-in-python # ARGH I FORGOT TO PUT THE PROGRAM NAME AGAIN, THE .EXE!!!
+# print(mp3tag_path)
 
-# This makes sure to keep the main window open
-window.mainloop()
+try:
+    # At runtime, open mp3tag
+    subprocess.Popen(
+        [mp3tag_path]
+    )  # https://stackoverflow.com/questions/37238645/how-to-open-external-programs-in-python # ARGH I FORGOT TO PUT THE PROGRAM NAME AGAIN, THE .EXE!!!
+
+    # This makes sure to keep the main window open
+    window.mainloop()
+except Exception as e:
+    print(e)
+    print("You need to set the MP3TAG_PATH environment variable to the path of your mp3tag executable.")
+    print("You can do this by running the following command in the terminal:")
+    print("set MP3TAG_PATH='/path/to/mp3tag.exe'")
+    print("Then run this program again.")
+    print("Currently, it is set to ", mp3tag_path)
+
 

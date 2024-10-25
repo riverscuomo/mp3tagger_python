@@ -25,17 +25,17 @@ for_jake = [
             # ("1", NEUTRAL),
         ],
     },
-    {
-        "group_control": NEUTRAL,
-        "label": "jd",
-        "scales": [
-            ("5", NEUTRAL),
-            ("4", NEUTRAL),
-            ("3", NEUTRAL),
-            ("2", NEUTRAL),
-            ("1", NEUTRAL),
-        ],
-    },
+    # {
+    #     "group_control": NEUTRAL,
+    #     "label": "jd",
+    #     "scales": [
+    #         ("5", NEUTRAL),
+    #         ("4", NEUTRAL),
+    #         ("3", NEUTRAL),
+    #         ("2", NEUTRAL),
+    #         ("1", NEUTRAL),
+    #     ],
+    # },
     {
         "group_control": NEUTRAL,
         "label": "jd",
@@ -159,7 +159,7 @@ for_jake = [
             ("covers", OFF),
             ("previous", OFF),
             ("hold", OFF),
-            ("The Pink Album", OFF),
+            ("Boxify", OFF),
             ("beats", OFF),
         ],
     },

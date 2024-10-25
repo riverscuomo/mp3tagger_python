@@ -1,1 +1,1 @@
-from data import *
+from mp3tagger.data import *

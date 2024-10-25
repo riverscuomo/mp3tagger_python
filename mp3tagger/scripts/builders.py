@@ -2,8 +2,8 @@ import tkinter as tk
 from tkinter import ttk as ttk
 import winsound
 import threading
-from data.constants import *
-from data.sections import *
+from mp3tagger.data.constants import *
+from mp3tagger.data.sections import *
 
 
 NEUTRAL = 1
