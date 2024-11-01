@@ -1,5 +1,7 @@
 from tkinter import *
 from tkinter.ttk import *
+from typing import List
+from venv import logger
 
 
 class MySlider(Frame):
@@ -57,6 +59,26 @@ class MySlider(Frame):
         values = [int(bar["Value"]) for bar in self.bars]
         # print(values)
         return sorted(values)
+
+    def setValues(self, values: List[int]) -> None:
+        """
+        Sets the slider positions based on the provided values.
+
+        Args:
+            values (List[int]): List of values to set on the slider.
+        """
+        logger.debug(f"Setting slider values to: {values}")
+        self.bars = []  # Clear existing bars
+        self.canv.delete("all")  # Clear the canvas
+        self.__addTrack(self.slider_x, self.slider_y,
+                        self.canv_W - self.slider_x, self.slider_y)
+
+        for value in values:
+            pos = (value - self.min_val) / (self.max_val - self.min_val)
+            pos = max(0, min(1, pos))  # Clamp between 0 and 1
+            bar = {"Pos": pos, "Ids": [], "Value": value}
+            bar["Ids"] = self.__addBar(pos)
+            self.bars.append(bar)
 
     def _mouseMotion(self, event):
         x = event.x
