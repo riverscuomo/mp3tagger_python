@@ -1,4 +1,7 @@
 launch.bat
+.G 
+.9
+.vscode/
 
 # Spotipy's token cache file
 .cache-*

@@ -1,18 +1,19 @@
+import subprocess
+from tkinter import Scrollbar, Canvas, WORD, IntVar, END
+from tkinter import IntVar, ttk as ttk
+import tkinter as tk
+import os
+from widgets.tkSliderWidget import *
+from data.sections import *
+from data.constants import *
+from scripts.automate import *
+from scripts.bpm import *
+from scripts.builders import *
+import threading
+from rich import print
 from dotenv import load_dotenv
 load_dotenv()
 
-import threading
-from mp3tagger.scripts.builders import *
-from mp3tagger.scripts.bpm import *
-from mp3tagger.scripts.automate import *
-from mp3tagger.data.constants import *
-from mp3tagger.data.sections import *
-from mp3tagger.widgets.tkSliderWidget import *
-import os
-import tkinter as tk
-from tkinter import IntVar, ttk as ttk
-from tkinter import Scrollbar, Canvas, WORD, IntVar, END
-import subprocess
 
 """
 pywinauto
@@ -50,7 +51,8 @@ def set_filter_string(value):
 
     for section in sections:
 
-        my_filter = get_filter_From_section(my_filter, section, control_toggle_pressed=False)
+        my_filter = get_filter_From_section(
+            my_filter, section, control_toggle_pressed=False)
 
     my_filter = clean_filter(my_filter)
 
@@ -155,7 +157,8 @@ def get_filters(section, control_toggle_pressed):
     # if not control_toggle_value == NEUTRAL:
 
     if control_toggle_pressed:
-        print("control_toggle_pressed so setting scale value to ", control_toggle_value)
+        print("control_toggle_pressed so setting scale value to ",
+              control_toggle_value)
         for scale in section["scales"]:
             scale.set(control_toggle_value)
 
@@ -194,10 +197,14 @@ def copy_to_mp3tag():  # sourcery skip: use-fstring-for-concatenation
     threading.Thread(target=automate, args=(my_filter,)).start()
 
 # Update the window's scrolling region on a configure event of the frame
+
+
 def onFrameConfigure(canvas):
     canvas.configure(scrollregion=canvas.bbox("all"))
 
 # Create an empty Tkinter window
+
+
 def set_up_window():
     window = tk.Tk()
     window.title("MP3 Tagger")
@@ -210,7 +217,8 @@ def set_up_window():
 
 def create_frame(onFrameConfigure, window):
     # Create the canvas and the horizontal scrollbar
-    canvas = Canvas(window, bg=bg_color, highlightthickness=0)  # Set background color here and remove highlight
+    # Set background color here and remove highlight
+    canvas = Canvas(window, bg=bg_color, highlightthickness=0)
     h_scrollbar = Scrollbar(window, orient='horizontal', command=canvas.xview)
     canvas.configure(xscrollcommand=h_scrollbar.set)
 
@@ -224,8 +232,10 @@ def create_frame(onFrameConfigure, window):
     # Add the frame to the canvas
     canvas.create_window((0, 0), window=frame, anchor='nw')
 
-    frame.bind("<Configure>", lambda event, canvas=canvas: onFrameConfigure(canvas))
+    frame.bind("<Configure>", lambda event,
+               canvas=canvas: onFrameConfigure(canvas))
     return frame
+
 
 window = set_up_window()
 frame = create_frame(onFrameConfigure, window)
@@ -318,7 +328,8 @@ hold_checkbox.select()
 
 # The Filter button
 row += 2
-b1 = tk.Button(frame, text="FILTER", command=copy_to_mp3tag, bg=bg_color, fg=fg_color)
+b1 = tk.Button(frame, text="FILTER", command=copy_to_mp3tag,
+               bg=bg_color, fg=fg_color)
 b1.grid(row=row, column=column)
 
 # THE FILTER TEXTBOX
@@ -335,7 +346,6 @@ textbox.grid(
 textbox.delete("1.0", END)
 
 
-
 mp3tag_path = os.environ.get("MP3TAG_PATH")
 # At runtime, open mp3tag
 subprocess.Popen(
@@ -344,4 +354,3 @@ subprocess.Popen(
 
 # This makes sure to keep the main window open
 window.mainloop()
-
