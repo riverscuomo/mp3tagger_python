@@ -1,3 +1,5 @@
+# REplaced by Flutter Windows app
+
 # MP3 Tagger [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://makeapullrequest.com)
 
 A python GUI that builds filters for the Mp3Tag application. I use this script to filter my demos by various custom tags. You can easily customize the script to filter by any tag you want.
